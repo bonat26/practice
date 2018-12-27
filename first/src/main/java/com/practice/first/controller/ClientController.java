@@ -6,28 +6,31 @@ import com.practice.first.service.ClientSrv;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping(value="/test")
+@RestController
+@RequestMapping(value="/client")
 @Slf4j
 public class ClientController {
 
     @Autowired
     ClientSrv clientSrv;
 
-    @RequestMapping(value = "/saveClient", method = RequestMethod.POST)
-    public void saveClient(@RequestParam(value = "codeId") ClientDto clientDto){
-        log.info("Start method - TestController.saveClient");
+    @RequestMapping(method = RequestMethod.POST)
+    public ClientDto saveClient(@RequestBody ClientDto clientDto){
+        log.info("Start method - ClientController.saveClient");
         log.info("Input - {}", clientDto);
 
-        Client client = clientSrv.transform(clientDto);
+        final Client client = clientSrv.transform(clientDto);
         clientSrv.saveClient(client);
 
-        log.info("End method - TestController.saveClient");
+        log.info("End method - ClientController.saveClient");
         log.info("Output - {}", clientDto);
+
+        return clientSrv.transform(client);
 
     }
 }
