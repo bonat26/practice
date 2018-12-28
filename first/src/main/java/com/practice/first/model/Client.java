@@ -12,7 +12,7 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "CLIENT_ID", nullable = false, updatable = false)
-    private Long id;
+    private Integer id;
     @Column(name = "NAME", nullable = false)
     private String name;
     @Column(name = "FSURNAME", nullable = false)
