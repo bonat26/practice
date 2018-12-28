@@ -6,10 +6,7 @@ import com.practice.first.service.ClientSrv;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value="/client")
@@ -31,6 +28,21 @@ public class ClientController {
         log.info("Output - {}", clientDto);
 
         return clientSrv.transform(client);
+
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ClientDto getClient(@RequestParam(name = "id") Integer clientId){
+        log.info("Start method - ClientController.getClient");
+        log.info("Input - {}", clientId);
+
+        final Client client = clientSrv.getClient(clientId);
+        final ClientDto clientDto = clientSrv.transform(client);
+
+        log.info("End method - ClientController.getClient");
+        log.info("Output - {}", clientDto);
+
+        return clientDto;
 
     }
 }
