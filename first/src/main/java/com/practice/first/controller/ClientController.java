@@ -45,4 +45,17 @@ public class ClientController {
         return clientDto;
 
     }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public void updateNameById(@RequestParam(name = "id") Integer id, @RequestParam(name = "name") String name){
+
+        log.info("Start method - ClientController.updateNameById");
+        log.info("Input - {}, {}", id, name);
+
+        clientSrv.updateClientNameById(id, name);
+
+        log.info("End method - ClientController.updateNameById");
+//        log.info("Output - {}", updatedRows);
+
+    }
 }

@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Slf4j
 @Service
 public class ClientSrvImpl implements ClientSrv {
@@ -44,6 +42,20 @@ public class ClientSrvImpl implements ClientSrv {
         log.info("Output - {}", client);
 
         return client;
+
+    }
+
+    @Override
+    public void updateClientNameById(Integer id, String name){
+
+        log.info("Start method - ClientSrv.updateClientNameById");
+        log.info("Input - {}, {}", id, name);
+
+        dao.updateClientName(id, name);
+
+        log.info("End method - ClientSrv.updateClientNameById");
+//        log.info("Output - {}, {}", id, name);
+
 
     }
 

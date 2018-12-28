@@ -8,6 +8,7 @@ public interface ClientSrv {
     /****  CRUD ****/
     void saveClient(Client client);
     Client getClient(Integer clientId);
+    void updateClientNameById(Integer id, String name);
 
 
     /**** MAPPING ****/
