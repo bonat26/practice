@@ -15,5 +15,5 @@ server:
 
 spring:
   profiles: docker
-  atasource:
+  datasource:
     url: jdbc:mysql://training_mysql:3306/dockerTraining?useSSL=false&serverTimezone=UTC&autoReconnect=true&allowPublicKeyRetrieval=true
