@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/dockerTraining?useSSL=false&serverTimezone=UTC&autoReconnect=true&allowPublicKeyRetrieval=true
+    username: rockypotter
+    password: rootroot
+server:
+  port: 8080
+
+---
+
+spring:
+  profiles: docker
+  atasource:
+    url: jdbc:mysql://training_mysql:3306/dockerTraining?useSSL=false&serverTimezone=UTC&autoReconnect=true&allowPublicKeyRetrieval=true
