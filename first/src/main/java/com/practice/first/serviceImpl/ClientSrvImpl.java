@@ -7,17 +7,25 @@ import com.practice.first.model.Client;
 import com.practice.first.service.ClientSrv;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
 public class ClientSrvImpl implements ClientSrv {
 
-    @Autowired
     private ClientDao dao;
 
-    @Autowired
     private ClientMapper mapper;
+
+    public ClientSrvImpl(ClientDao dao, ClientMapper mapper){
+        this.dao = dao;
+        this.mapper = mapper;
+    }
 
     @Override
     public void saveClient(Client client) {
@@ -42,7 +50,20 @@ public class ClientSrvImpl implements ClientSrv {
         log.info("Output - {}", client);
 
         return client;
+    }
 
+    @Override
+    public List<Client> getAll(Integer page, Integer size) {
+        log.info("Start method - ClientSrv.getAll");
+        log.info("Input - {}, {}", page, size);
+
+        List<Client> clients = new ArrayList<>();
+        dao.findAll(PageRequest.of(page, size)).forEach(a -> clients.add(a));
+
+        log.info("End method - ClientSrv.getAll");
+        log.info("Output - {}", clients);
+
+        return clients;
     }
 
     @Override
@@ -54,9 +75,6 @@ public class ClientSrvImpl implements ClientSrv {
         dao.updateClientName(id, name);
 
         log.info("End method - ClientSrv.updateClientNameById");
-//        log.info("Output - {}, {}", id, name);
-
-
     }
 
     @Override
@@ -67,6 +85,16 @@ public class ClientSrvImpl implements ClientSrv {
     @Override
     public ClientDto transform(Client client) {
         return mapper.transform(client);
+    }
+
+    @Override
+    public List<ClientDto> transform(List<Client> clients){
+
+        List<ClientDto> clientsDto = new ArrayList<>();
+
+        clients.forEach(a -> clientsDto.add(transform(a)));
+
+        return clientsDto;
     }
 
 }

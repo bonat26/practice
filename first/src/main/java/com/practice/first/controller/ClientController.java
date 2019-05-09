@@ -8,13 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value="/client")
 @Slf4j
 public class ClientController {
 
-    @Autowired
     ClientSrv clientSrv;
+
+    public ClientController(ClientSrv clientSrv){
+        this.clientSrv = clientSrv;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ClientDto saveClient(@RequestBody ClientDto clientDto){
@@ -31,8 +36,8 @@ public class ClientController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ClientDto getClient(@RequestParam(name = "id") Integer clientId){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ClientDto getClient(@PathVariable(name = "id") Integer clientId){
         log.info("Start method - ClientController.getClient");
         log.info("Input - {}", clientId);
 
@@ -46,6 +51,21 @@ public class ClientController {
 
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public List<ClientDto> getAll(@RequestParam(name = "page") Integer page, @RequestParam(name = "size") Integer size){
+        log.info("Start method - ClientController.getAll");
+        log.info("Input - {}, {}", page, size);
+
+        final List<Client> clients = clientSrv.getAll(page, size);
+        final List<ClientDto> clientDtos = clientSrv.transform(clients);
+
+        log.info("End method - ClientController.getAll");
+        log.info("Output - {}", clientDtos);
+
+        return clientDtos;
+
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public void updateNameById(@RequestParam(name = "id") Integer id, @RequestParam(name = "name") String name){
 
@@ -55,7 +75,5 @@ public class ClientController {
         clientSrv.updateClientNameById(id, name);
 
         log.info("End method - ClientController.updateNameById");
-//        log.info("Output - {}", updatedRows);
-
     }
 }
