@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    container_name: training_mysql
+    image: "mysql"
+    environment:
+      MYSQL_DATABASE: dockerTraining
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: rockypotter
+      MYSQL_PASSWORD: rootroot
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - mysql-data:/var/lib/mysql
+  app:
+    #build: .
+    container_name: spring_app
+    image: "rockypotter/spring-app:0.1"
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    restart: always
+    depends_on:
+      - db
+volumes:
+  mysql-data:
